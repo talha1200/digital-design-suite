@@ -1,0 +1,7 @@
+*_prj
+*.Xil/
+*.log
+*.jou
+*.str
+*.wcfg
+draft.*
