@@ -21,7 +21,7 @@
 # ///////////////////////////////////////////////////////////////////////////// 
 
 # Create a new project
-create_project async_fifo ./async_fifo_prj -force
+create_project sync_fifo ./sync_fifo_prj -force
 
 # Add RTL files to the project
 add_files -fileset sources_1 [glob ../rtl/*.sv]
@@ -36,7 +36,7 @@ if {[get_filesets sim_1] == ""} {
 }
 
 # Set the top module for simulation in the simulation set
-set_property top tb_async_fifo [get_filesets sim_1]
+set_property top tb_sync_fifo [get_filesets sim_1]
 
 # Launch the simulation
 launch_simulation
