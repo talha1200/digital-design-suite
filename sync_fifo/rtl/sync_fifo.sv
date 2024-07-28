@@ -48,7 +48,6 @@ module sync_fifo #(
   logic [ADDR_WIDTH-1:0] wr_ptr                      ;
   logic [ADDR_WIDTH-1:0] rd_ptr                      ;
   logic [DATA_WIDTH-1:0] memory_block[FIFO_DEPTH-1:0];
-  logic [ADDR_WIDTH-1:0] counter                     ;
 
   // ---------------------------------
   // Implementation
@@ -92,18 +91,8 @@ module sync_fifo #(
     end
   end
 
-  // Count of number of entries in the FIFO. This information can be used to detect full/empty/almost full conditions
-  always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n)
-      counter <= 'h0;
-    else if (wr_en && !rd_en)
-      counter <= counter + 1;
-    else if (rd_en && !wr_en)
-      counter <= counter - 1;
-  end
-
-  assign empty = (counter == 0);
-  assign full  = (counter == FIFO_DEPTH);
+  assign empty = rd_ptr == wr_ptr;
+  assign full  = (wr_ptr + 1) == rd_ptr;;
 
   // Memory block for buffer
   always_ff @(posedge clk) begin
