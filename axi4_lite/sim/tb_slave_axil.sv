@@ -147,7 +147,8 @@ module tb_slave_axil ();
   logic        axi_rlast    = 1;
   logic        axi_rvalid      ;
   logic        axi_rready      ;
-
+  int mismatch_cnt0;
+  int mismatch_cnt1;
   //---------------
   // Implementation
   //---------------
@@ -243,8 +244,7 @@ module tb_slave_axil ();
     axi_awaddr1 = {32'h40002200, 32'h40002204, 32'h40002208, 32'h4000220C};
     axi_araddr1 = {32'h40002200, 32'h40002204, 32'h40002208, 32'h4000220C};
 
-    int mismatch_cnt0;
-    int mismatch_cnt0;
+
 
     // Perform AXI transactions
     // Write transaction
@@ -272,7 +272,7 @@ module tb_slave_axil ();
         $display("Read data matches expected value: %h", axi_rdata0[i]);
       end
       else begin
-        mismatch_cnt0 ++;
+        mismatch_cnt0 = mismatch_cnt0 + 1;
         $display("Read data does not match expected value!");
       end
     end
