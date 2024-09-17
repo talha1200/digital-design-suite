@@ -1,3 +1,5 @@
+spi
+*.docx
 *_prj
 *.Xil/
 *.log
@@ -6,3 +8,4 @@
 *.wcfg
 *_draft.*
 *_test.*
+*_lfsr
