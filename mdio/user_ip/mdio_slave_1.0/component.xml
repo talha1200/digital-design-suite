@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>user.org</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>mdio_slave</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>mdio</spirit:name>
+      <spirit:busType spirit:vendor="rtlwizard" spirit:library="user" spirit:name="mdio" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="rtlwizard" spirit:library="user" spirit:name="mdio_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>MDIO_O</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>mdio_o</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>MDIO_I</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>mdio_i</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>MDC</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>mdio_mdc</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>MDIO_T</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>mdio_t</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>rst_n</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>rst_n</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.RST_N.POLARITY" spirit:choiceRef="choice_list_74b5137e">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>mdio_slave</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>1618bf7e</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>mdio_slave</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>1618bf7e</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>839753c4</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>rst_n</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>mdio_mdc</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>mdio_o</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>mdio_t</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>mdio_i</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>slave_reg</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="( spirit:decode(id(&apos;MODELPARAM_VALUE.NUM_REG&apos;)) * 16 - 1 )">63</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long" spirit:resolve="dependent" spirit:dependency="{(spirit:decode(id(&apos;MODELPARAM_VALUE.NUM_REG&apos;)) * 16){&quot;0&quot;}}">0x0000000000000000</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+        <spirit:vendorExtensions>
+          <xilinx:portInfo>
+            <xilinx:packedDimensionsVector>
+              <xilinx:dimension>
+                <xilinx:left>(NUM_REG - 1)</xilinx:left>
+                <xilinx:right>0</xilinx:right>
+              </xilinx:dimension>
+              <xilinx:dimension>
+                <xilinx:left>15</xilinx:left>
+                <xilinx:right>0</xilinx:right>
+              </xilinx:dimension>
+            </xilinx:packedDimensionsVector>
+          </xilinx:portInfo>
+        </spirit:vendorExtensions>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>PHY_ADDR</spirit:name>
+        <spirit:displayName>Phy Addr</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.PHY_ADDR">1</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>SLAVE_ID</spirit:name>
+        <spirit:displayName>Slave Id</spirit:displayName>
+        <spirit:value spirit:format="bitString" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.SLAVE_ID" spirit:bitStringLength="16">0xDEAD</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>NUM_REG</spirit:name>
+        <spirit:displayName>Num Reg</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.NUM_REG">4</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_74b5137e</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>rtl/mdio_slave.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_1618bf7e</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>rtl/mdio_slave.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/mdio_slave_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_839753c4</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>mdio_slave_v1_0</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>PHY_ADDR</spirit:name>
+      <spirit:displayName>PHY_ADDR</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.PHY_ADDR" spirit:minimum="0" spirit:maximum="31" spirit:rangeType="long">1</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>SLAVE_ID</spirit:name>
+      <spirit:displayName>SLAVE_ID</spirit:displayName>
+      <spirit:value spirit:format="bitString" spirit:resolve="user" spirit:id="PARAM_VALUE.SLAVE_ID" spirit:bitStringLength="16">0xDEAD</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">mdio_slave_v1_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>NUM_REG</spirit:name>
+      <spirit:displayName>NUM_REG</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.NUM_REG" spirit:bitStringLength="5" spirit:minimum="4" spirit:maximum="32" spirit:rangeType="long">4</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">versal</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>mdio_slave_v1_0</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:coreRevision>25</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2024-09-29T10:43:38Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@549817d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b3c50d2_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5abee236_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f0ce1ea_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@366579aa_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6c1b7572_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2630f7e1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6868bee1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c78d175_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a4cf417_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5873db6a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76ac3fee_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b77b866_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f153ed1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73a962a1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7fa311c0_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26efeaac_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34ab078c_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1d732cc3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@73458bfe_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1fe487b0_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cb66dea_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@714284a7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69da6088_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8bffd7f_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3636ca3a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@341ed4ff_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62468d14_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64bc3696_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ff48e3f_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@72a23a9b_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3191a6c5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54bed4ef_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11ac8365_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ca81d80_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6dddffe1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@d21e501_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@450203cb_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@14c72069_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6117c3e6_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c2f69f1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3cef4cfe_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51c47f2a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f688dfb_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7ac32e95_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a506911_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@531e0808_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2cc75795_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b685f4e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@62acb904_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8e19198_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@32f12262_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2595c559_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50dfc63b_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c4f2af7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a4d5664_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12360093_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1913fc25_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@183d5153_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4deb3921_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@232c01b1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@124334a9_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6b571bb3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@38813cfd_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f091e26_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@237b618e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52c7e1b8_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@793a50fb_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@47ad999d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f2232d3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5caa5823_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a55a026_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e438ee_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@501ce1cc_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@52a3b159_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55549f89_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e8889f3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5fc2c30_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@720ca9fa_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5c6676c2_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e605fab_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34a27483_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b37b434_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@297246d7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6bf84c54_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7356fb71_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@58ed0658_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b47fda7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b18a7e3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@200519ee_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@780c7a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ea4550d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@24fc71ce_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@18034634_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1e6828f2_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@41802794_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@485b08ad_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7454bb50_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6f71056a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57f81263_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10bfeb6d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21393317_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11fc5a78_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11645dc5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7c1dc49_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3acb2795_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@66892945_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3341c185_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f1939d7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1076b776_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74121181_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6afca8e0_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3eee27da_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30599ce7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@50710434_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6be4b302_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@fa7876_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d670012_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51376a0f_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e0b30c_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@614fea48_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3363e59f_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@47385434_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5a91c1aa_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54982700_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ec3f756_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35f3012a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b1b822e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6dbf6ea0_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17c76bc5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5ae92a51_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6327fea1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55a137eb_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3053e116_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2d3ffd3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f1257ad_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67a6807d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@240a3f9c_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@360a9cdc_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@362fccf_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e64c3e2_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@25766c5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@53baeaa8_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6cafe42e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75898718_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@ce2e5a3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@59bea773_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1373f078_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2827ffa_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b1a4d17_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f9a323_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76a4487b_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55802585_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@356ca970_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@76535867_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a85773e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e27d743_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2f7c8f1d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d1579c4_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c57f176_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@63e3e6ec_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@526b0dd2_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b97368c_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2dca64d0_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f0f51bc_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@9e78219_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5bb75df2_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19762d56_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b8e6142_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@29360483_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ee9d8fe_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26921304_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@779ce44a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6eba3abc_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@67283bb_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@26a6cb0c_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@34a58e37_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@8177411_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2df837f5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@405ed275_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f17a6c0_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1c37eb58_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@725f40d7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b9a7865_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64609bc0_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@79abce77_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2a7fb8fc_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@669257ed_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6413cf12_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5438ca0d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@57c1d9d4_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@171bd1e5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2154dfc5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c066908_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4ba4d477_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@44c53ede_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2e31fbf8_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2b8500c0_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2376c249_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5fb40165_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3f37a2dc_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@20bdb302_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5d0cbc55_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11881141_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2a80c1e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@51e04ff7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17e7a460_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3b52927e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7959b9d6_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6e44e61_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@70c13a67_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31ebd235_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6dc34e56_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3aeae122_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74a094ed_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@596538a1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@705b6d3a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@233995ea_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@583fde29_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1edfe140_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@33613b94_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@cc49096_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@224dcc50_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@430cc3d3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@71060aa5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6782abc7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@21878b24_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3167d46d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ad3aaf8_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2ce2602c_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@297ffcfd_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6067efd2_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@27b08d37_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@12296bc_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1276414d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@69a02191_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19fec251_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1821cbc9_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@74bc4c07_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3408cf08_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@30fd9f67_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@421ff66f_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@75052429_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3ffb9aaf_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ca4bbe3_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4e6a2c80_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@28a6992b_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7d084b7c_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3c445df_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@671354a6_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@19333c6d_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@3e4ffae9_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1b5e8b31_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@17540851_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6cc021e1_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@55ada5ac_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@417d3c22_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2c8cae26_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@56bfd1fa_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5b4bc691_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6029e59a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a016255_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@115915cb_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4fdc454a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6057efce_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7decbb8f_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6d51ebdf_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4f1bc50a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@e90e5e7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35176541_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@115e1aba_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7082189a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6dc33b88_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@11f8ab28_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@519beee7_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@550e1183_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@846de5e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1f14c0fe_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7b6c21f_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@7a2687b2_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2788e341_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@49a8a82a_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6ac05c24_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5e8d0028_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@64c01742_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@9f9ea24_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@48b64f25_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@450d136f_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6a81ebae_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@2827543e_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6cf8d141_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@289a81c5_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@398c8e90_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@bd86150_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@4b294376_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1ca72644_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@39deb669_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@1a844471_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@54940a81_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@31a40521_ARCHIVE_LOCATION">/home/talha/projects/personal_projects/digital-design-suite/mdio</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2020.2</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="5efa6ae3"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="afee8679"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="056b3aab"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="bd0c7f91"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="2d4e4bfd"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>
