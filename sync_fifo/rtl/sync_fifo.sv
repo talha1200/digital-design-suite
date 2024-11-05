@@ -21,10 +21,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 module sync_fifo #(
-  parameter        SIM        = 1         ,
+  parameter        SIMULATION = 1         ,
   parameter        DATA_WIDTH = 8         ,
   parameter        FIFO_DEPTH = 256       ,
-  parameter string FIFO_TYPE  = "Standard"  // "Standard" or "FWFT"
+  parameter string FIFO_TYPE  = "Standard" // "Standard" or "FWFT"
 ) (
   input  logic                  clk  ,
   input  logic                  rst_n,
@@ -45,8 +45,8 @@ module sync_fifo #(
   //---------------------------
   // Internal wires and regs
   //---------------------------
-  logic [ADDR_WIDTH-1:0] wr_ptr                      ;
-  logic [ADDR_WIDTH-1:0] rd_ptr                      ;
+  logic [ADDR_WIDTH:0] wr_ptr_ext; // Extended write pointer with extra bit
+  logic [ADDR_WIDTH:0] rd_ptr_ext; // Extended read pointer with extra bit
   logic [DATA_WIDTH-1:0] memory_block[FIFO_DEPTH-1:0];
 
   // ---------------------------------
@@ -54,7 +54,7 @@ module sync_fifo #(
   // ---------------------------------
 
   generate
-    if (SIM) begin
+    if (SIMULATION) begin
       initial begin
         for (int i = 0; i < FIFO_DEPTH; i++) begin
           memory_block[i] = {DATA_WIDTH{1'd0}};
@@ -66,38 +66,41 @@ module sync_fifo #(
   // Write pointer increments with every write unless the FIFO is full
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n)
-      wr_ptr <= 'h0;
+      wr_ptr_ext <= 'h0;
     else if (wr_en && !full) begin
-      if (wr_ptr == (FIFO_DEPTH - 1)) begin 
-        wr_ptr <= 'h0;
-      end
-      else begin 
-        wr_ptr <= wr_ptr + 1;
-      end
+      wr_ptr_ext <= wr_ptr_ext + 1;
     end
   end
 
   // Read pointer increments with every read unless the FIFO is empty
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n)
-      rd_ptr <= 'h0;
+      rd_ptr_ext <= 'h0;
     else if (rd_en && !empty) begin
-      if (rd_ptr == (FIFO_DEPTH - 1)) begin 
-        rd_ptr <= 'h0;
-      end
-      else begin 
-        rd_ptr <= rd_ptr + 1;
-      end
+      rd_ptr_ext <= rd_ptr_ext + 1;
     end
   end
 
-  assign empty = rd_ptr == wr_ptr;
-  assign full  = (wr_ptr + 1) == rd_ptr;;
+  // Full and empty conditions
+
+  // - **Empty Condition**: The FIFO is empty when the extended write pointer (`wr_ptr_ext`) 
+  //                        is equal to the extended read pointer (`rd_ptr_ext`). 
+  //                        This means no data is available for reading.
+  
+  // - **Full Condition**:  The FIFO is full when the lower bits of the write pointer are equal 
+  //                        to the lower bits of the read pointer, and the MSBs are different. 
+  //                        This indicates that the write pointer has wrapped around and 
+  //                        is one position behind the read pointer.
+
+  
+  assign empty = (wr_ptr_ext == rd_ptr_ext);
+  assign full  = ((wr_ptr_ext[ADDR_WIDTH-1:0] == rd_ptr_ext[ADDR_WIDTH-1:0])) && 
+                 ((wr_ptr_ext[ADDR_WIDTH] != rd_ptr_ext[ADDR_WIDTH]));
 
   // Memory block for buffer
   always_ff @(posedge clk) begin
     if (wr_en && !full) begin
-      memory_block[wr_ptr] <= din;
+      memory_block[wr_ptr_ext[ADDR_WIDTH-1:0]] <= din;
     end
   end
 
@@ -106,12 +109,12 @@ module sync_fifo #(
     if (FIFO_TYPE == "FWFT") begin
       always_comb begin
         if (rd_en) begin
-          dout  = memory_block[rd_ptr];
+          dout  = memory_block[rd_ptr_ext[ADDR_WIDTH-1:0]];
           valid = 1'd1;
         end
         else begin
           valid = 1'd0;
-          dout  = memory_block[rd_ptr];
+          dout  = memory_block[rd_ptr_ext[ADDR_WIDTH-1:0]];
         end
       end
     end
@@ -123,7 +126,7 @@ module sync_fifo #(
         end
         else begin
           if (rd_en && !empty) begin
-            dout <= memory_block[rd_ptr];
+            dout <= memory_block[rd_ptr_ext[ADDR_WIDTH-1:0]];
             valid <= 1'd1;
           end
           else begin
@@ -133,8 +136,8 @@ module sync_fifo #(
       end
     end
     else begin
-      $fatal("Wrong FIFO type. Fatal error occurred!");
+      $fatal("Invalid FIFO type specified. Fatal error occurred!");
     end
   endgenerate
 
-endmodule
+endmodule : sync_fifo

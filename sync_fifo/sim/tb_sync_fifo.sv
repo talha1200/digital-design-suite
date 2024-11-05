@@ -27,7 +27,7 @@ module tb_sync_fifo ();
   // Localparam
   //---------------------------
   parameter DATA_WIDTH = 8  ;
-  parameter FIFO_DEPTH = 10 ;
+  parameter FIFO_DEPTH = 4  ;
   parameter SIM        = 1  ;
 
   //---------------------------
@@ -160,4 +160,4 @@ module tb_sync_fifo ();
   end
 
 
-endmodule
+endmodule : tb_sync_fifo

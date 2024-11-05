@@ -44,8 +44,8 @@ module fifo_tester #(
   // Internal wires and regs
   //---------------------------
 
-  logic [$clog2(FIFO_DEPTH)-1:0] wrptr;
-  logic [$clog2(FIFO_DEPTH)-1:0] rdptr;
+  logic [$clog2(FIFO_DEPTH):0] wrptr;
+  logic [$clog2(FIFO_DEPTH):0] rdptr;
   logic [DATA_WIDTH-1:0] sent_data [FIFO_DEPTH-1:0];
   logic [DATA_WIDTH-1:0] data;
 
