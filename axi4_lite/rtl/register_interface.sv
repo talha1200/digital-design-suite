@@ -23,17 +23,20 @@
 
 module register_interface #(
   // parameters
-  parameter BASE_ADDRESS = 7'h10
+  parameter int VALID_ADDR_RANGE  = 7'h04, // total number of register
+  parameter int BASE_ADDRESS      = 7'h10
 ) (
   input  logic          axi_rstn  ,
   input  logic          axi_clk   ,
   input  logic          axi_wreq  ,
   input  logic [14-1:0] axi_waddr ,
   input  logic [32-1:0] axi_wdata ,
+  output logic          axi_werr  ,
   output logic          axi_wack  ,
   input  logic          axi_rreq  ,
   input  logic [14-1:0] axi_raddr ,
   output logic [32-1:0] axi_rdata ,
+  output logic          axi_rerr  ,
   output logic          axi_rack  ,
   // Register
   output logic [32-1:0] slave_reg0,
@@ -51,7 +54,11 @@ module register_interface #(
   //-------------------------------------------
 
   logic        is_write_req ;
+  logic        axi_wack_0 ;
+  logic        axi_wack_1 ;
   logic        is_read_req  ;
+  logic        axi_rack_0 ;
+  logic        axi_rack_1 ;
 
   //-------------------------------------
   // Implementation
@@ -62,40 +69,65 @@ module register_interface #(
   //----------------------
 
   assign is_write_req = (axi_waddr[13:7] == BASE_ADDRESS) ? axi_wreq : 1'b0;
-  assign is_read_req = (axi_raddr[13:7] == BASE_ADDRESS) ? axi_rreq : 1'b0;
+  assign is_read_req  = (axi_raddr[13:7] == BASE_ADDRESS) ? axi_rreq : 1'b0;
 
   //-----------------
   // write interface
   //-----------------
 
-
   always @(posedge axi_clk or negedge axi_rstn) begin
     if (!axi_rstn) begin
-      axi_wack <= 1'd0;
+      axi_wack_0 <= 1'd0;
     end
     else begin
-      if ((is_write_req == 1'b1) && (axi_waddr[6:0] == 7'h00)) begin
-        slave_reg0 <= axi_wdata;
-        axi_wack <= is_write_req;
+      if (is_write_req) begin
+        case (axi_waddr[6:0])
+          7'h00: begin
+            axi_wack_0 <= 1'b1;
+            slave_reg0 <= axi_wdata;
+          end
+          7'h01: begin
+            axi_wack_0 <= 1'b1;
+            slave_reg1 <= axi_wdata;
+          end
+          7'h02: begin
+            axi_wack_0 <= 1'b1;
+            slave_reg2 <= axi_wdata;
+          end
+          7'h03: begin
+            axi_wack_0 <= 1'b1;
+            slave_reg3 <= axi_wdata;
+          end 
+          // add more register here if needed
+          default: axi_wack_0 <= 1'd0; // no such register
+        endcase
       end
-      else if ((is_write_req == 1'b1) && (axi_waddr[6:0] == 7'h01)) begin
-        slave_reg1 <= axi_wdata;
-        axi_wack <= is_write_req;
-      end
-      else if ((is_write_req == 1'b1) && (axi_waddr[6:0] == 7'h02)) begin
-        slave_reg2 <= axi_wdata;
-        axi_wack <= is_write_req;
-      end
-      else if ((is_write_req == 1'b1) && (axi_waddr[6:0] == 7'h03)) begin
-        slave_reg3 <= axi_wdata;
-        axi_wack <= is_write_req;
-      end
-      // add more register here if needed
-      else begin 
-        axi_wack <= 1'd0; // no such register
+      else begin
+        axi_wack_0 <= 1'd0;
       end
     end
   end
+
+  always @(posedge axi_clk or negedge axi_rstn) begin
+    if (!axi_rstn) begin
+      axi_werr   <= 1'd0;
+      axi_wack_1 <= 1'd0;
+    end
+    else begin
+      if (is_write_req) begin
+        if (axi_waddr[6:0] > (VALID_ADDR_RANGE - 1)) begin
+          axi_werr   <= 1'd1;
+          axi_wack_1 <= 1'd1;
+        end
+      end
+      else begin
+        axi_werr   <= 1'd0;
+        axi_wack_1 <= 1'd0;
+      end
+    end
+  end
+
+  assign axi_wack = axi_wack_0 | axi_wack_1;
 
   //-----------------
   // read interface
@@ -103,25 +135,61 @@ module register_interface #(
 
   always @(posedge axi_clk or negedge axi_rstn) begin
     if (!axi_rstn) begin
-      axi_rack  <= 'd0;
-      axi_rdata <= 'd0;
+      axi_rack_0  <= 1'd0;
+      axi_rdata   <= 32'd0;
     end
     else begin
-      axi_rack <= is_read_req;
       if (is_read_req == 1'b1) begin
         case (axi_raddr[6:0])
-          7'h00   : axi_rdata <= slave_reg0;
-          7'h01   : axi_rdata <= slave_reg1;
-          7'h02   : axi_rdata <= slave_reg2;
-          7'h03   : axi_rdata <= slave_reg3;
+          7'h00   : begin
+            axi_rack_0 <= 1'b1;
+            axi_rdata  <= slave_reg0;
+          end
+          7'h01   : begin
+            axi_rack_0 <= 1'b1;
+            axi_rdata <= slave_reg1;
+          end
+          7'h02   : begin
+            axi_rack_0 <= 1'b1;
+            axi_rdata <= slave_reg2;
+          end
+          7'h03   : begin
+            axi_rack_0 <= 1'b1;
+            axi_rdata  <= slave_reg3;
+          end
           // add more register here if needed
-          default : axi_rdata <= 0;
+          default : begin
+            axi_rack_0 <= 1'b0;
+            axi_rdata  <= 32'd0;
+          end 
         endcase
       end
       else begin
+        axi_rack_0 <= 1'd0;
         axi_rdata <= 32'd0;
       end
     end
   end
 
-endmodule
+  always @(posedge axi_clk or negedge axi_rstn) begin
+    if (!axi_rstn) begin
+      axi_rerr   <= 1'd0;
+      axi_rack_1 <= 1'd0;
+    end
+    else begin
+      if (is_write_req) begin
+        if (axi_raddr[6:0] > (VALID_ADDR_RANGE - 1)) begin
+          axi_rerr   <= 1'd1;
+          axi_rack_1 <= 1'd1;
+        end
+      end
+      else begin
+        axi_rerr   <= 1'd0;
+        axi_rack_1 <= 1'd0;
+      end
+    end
+  end
+
+  assign axi_rack = axi_rack_0 | axi_rack_1;
+
+endmodule : register_interface

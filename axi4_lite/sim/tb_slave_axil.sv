@@ -28,7 +28,7 @@ module tb_slave_axil ();
   //----------------------------------------------
   // Local parameter
   //----------------------------------------------
-  localparam AXI_ADDRESS_WIDTH = 32;
+  localparam AXI_ADDRESS_WIDTH = 32; // [32:16] interconnect address width | [15:0] peripheral address width  
   typedef axi_vip_master_pkg::axi_vip_master_mst_t axi_mst_agent_t;
   localparam AXI_ADDR_W    = axi_vip_master_pkg::axi_vip_master_VIP_ADDR_WIDTH;
   localparam AXI_DATA_W    = axi_vip_master_pkg::axi_vip_master_VIP_DATA_WIDTH;
@@ -77,6 +77,8 @@ module tb_slave_axil ();
   logic [(16-3):0] axi_raddr;
   logic [    31:0] axi_rdata;
   logic            axi_rack ;
+  logic axi_werr;
+  logic axi_rerr;
 
   typedef logic [AXI_ADDR_W-1:0]   axi_addr_t;
   typedef logic [AXI_DATA_W-1:0]   axi_data_t;
@@ -226,18 +228,18 @@ module tb_slave_axil ();
     axi_addr_t axi_araddr1[];
     logic [2-1:0]resp1;
 
-    axi_wdata0  = new[4];
-    axi_awaddr0 = new[4];
-    axi_rdata0  = new[4];
-    axi_araddr0 = new[4];
+    axi_wdata0  = new[5];
+    axi_awaddr0 = new[5];
+    axi_rdata0  = new[5];
+    axi_araddr0 = new[5];
 
     axi_wdata1  = new[4];
     axi_awaddr1 = new[4];
     axi_rdata1  = new[4];
     axi_araddr1 = new[4];
 
-    axi_wdata0  = {32'hdeadbeef, 32'hc0decafe, 32'hbabeb00b, 32'hcacadada};
-    axi_awaddr0 = {32'h40000000, 32'h40000004, 32'h40000008, 32'h4000000C};
+    axi_wdata0  = {32'hdeadbeef, 32'hc0decafe, 32'hbabeb00b, 32'hcacadada, 32'hdeaddead};
+    axi_awaddr0 = {32'h40000000, 32'h40000004, 32'h40000008, 32'h4000000C, 32'h40000010};
     axi_araddr0 = {32'h40000000, 32'h40000004, 32'h40000008, 32'h4000000C};
 
     axi_wdata1  = {32'hdeadbeef, 32'hc0decafe, 32'hbabeb00b, 32'hcacadada};
@@ -249,9 +251,12 @@ module tb_slave_axil ();
     // Perform AXI transactions
     // Write transaction
     $display("Performing AXI write transaction...");
-    for (int i = 0; i < 4; i++) begin
+    for (int i = 0; i < 5; i++) begin
       axi_mst_agent.AXI4LITE_WRITE_BURST(axi_awaddr0[i], prot, axi_wdata0[i], resp0);
       repeat(5) @ (posedge AXI_ACLK);
+    end
+    
+    for (int i = 0; i < 4; i++) begin
       axi_mst_agent.AXI4LITE_WRITE_BURST(axi_awaddr1[i], prot, axi_wdata1[i], resp1);
       repeat(5) @ (posedge AXI_ACLK);
     end
@@ -334,18 +339,24 @@ module tb_slave_axil ();
     .axi_wreq   (axi_wreq   ),
     .axi_waddr  (axi_waddr  ),
     .axi_wdata  (axi_wdata  ),
+    .axi_werr   (axi_werr   ),
     .axi_wack   (axi_wack   ),
     .axi_rreq   (axi_rreq   ),
     .axi_raddr  (axi_raddr  ),
     .axi_rdata  (axi_rdata  ),
+    .axi_rerr   (axi_rerr   ),
     .axi_rack   (axi_rack   )
   );
 
+  logic          axi_werr_peripheral0 ;
   logic          axi_wack_peripheral0 ;
+  logic          axi_rerr_peripheral0 ;
   logic          axi_rack_peripheral0 ;
   logic [32-1:0] axi_rdata_peripheral0;
 
+  logic          axi_werr_peripheral1 ;
   logic          axi_wack_peripheral1 ;
+  logic          axi_rerr_peripheral1 ;
   logic          axi_rack_peripheral1 ;
   logic [32-1:0] axi_rdata_peripheral1;
 
@@ -365,7 +376,9 @@ module tb_slave_axil ();
       axi_rack  <= 1'd0;
       axi_rdata <= 32'd0;
     end else begin
+      axi_werr  <= axi_werr_peripheral0  | axi_werr_peripheral1 ;
       axi_wack  <= axi_wack_peripheral0  | axi_wack_peripheral1 ;
+      axi_rerr  <= axi_rerr_peripheral0  | axi_rerr_peripheral1 ;
       axi_rack  <= axi_rack_peripheral0  | axi_rack_peripheral1 ;
       axi_rdata <= axi_rdata_peripheral0 | axi_rdata_peripheral1;
     end
@@ -377,10 +390,12 @@ module tb_slave_axil ();
     .axi_wreq  (axi_wreq              ),
     .axi_waddr (axi_waddr             ),
     .axi_wdata (axi_wdata             ),
+    .axi_werr  (axi_werr_peripheral0  ),
     .axi_wack  (axi_wack_peripheral0  ),
     .axi_rreq  (axi_rreq              ),
     .axi_raddr (axi_raddr             ),
     .axi_rdata (axi_rdata_peripheral0 ),
+    .axi_rerr  (axi_rerr_peripheral0  ),
     .axi_rack  (axi_rack_peripheral0  ),
     // Register
     .slave_reg0(slave_peripheral0_reg0),
@@ -395,10 +410,12 @@ module tb_slave_axil ();
     .axi_wreq  (axi_wreq              ),
     .axi_waddr (axi_waddr             ),
     .axi_wdata (axi_wdata             ),
+    .axi_werr  (axi_werr_peripheral1  ),
     .axi_wack  (axi_wack_peripheral1  ),
     .axi_rreq  (axi_rreq              ),
     .axi_raddr (axi_raddr             ),
     .axi_rdata (axi_rdata_peripheral1 ),
+    .axi_rerr  (axi_rerr_peripheral1  ),
     .axi_rack  (axi_rack_peripheral1  ),
     // Register
     .slave_reg0(slave_peripheral1_reg0),
