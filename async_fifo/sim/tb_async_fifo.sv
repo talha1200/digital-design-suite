@@ -28,6 +28,7 @@ module tb_async_fifo ();
   localparam DATA_WIDTH = 8              ;
   localparam ADDR_WIDTH = 4              ;
   localparam DEPTH      = 1 << ADDR_WIDTH; // FIFO depth is 2^ADDR_WIDTH
+  localparam TEST_ITEMS = 64             ;
 
   //--------------------------------
   // internal wire & reg
@@ -45,10 +46,12 @@ module tb_async_fifo ();
   logic [DATA_WIDTH-1:0] dout     ;
   logic                  full     ;
   logic                  empty    ;
+  logic                  overflow ;
+  logic                  underflow;
   // Internal signals for testbench
-  logic [DATA_WIDTH-1:0] expected_data[DEPTH-1:0];
-  logic [ADDR_WIDTH-1:0] write_count             ;
-  logic [ADDR_WIDTH-1:0] read_count              ;
+  logic [DATA_WIDTH-1:0] expected_data[TEST_ITEMS-1:0];
+  int                    write_count             ;
+  int                    read_count              ;
   int                    mismatch_cnt            ;
 
   //--------------------------------
@@ -70,97 +73,79 @@ module tb_async_fifo ();
     .vaild_out(vaild_out),
     .dout     (dout     ),
     .full     (full     ),
-    .empty    (empty    )
+    .empty    (empty    ),
+    .overflow (overflow ),
+    .underflow(underflow)
   );
 
   // Clock generation
   always #5 wr_clk = ~wr_clk;  // Write clock period of 10 ns (100 MHz)
   always #10 rd_clk = ~rd_clk; // Read clock period of 20 ns (50 MHz)
 
-  // Testbench logic
-
   initial begin
-    // Initialize signals
-    wr_clk      = 0;
-    rd_clk      = 0;
-    wr_en       = 0;
-    write_count = 0;
+    wr_clk       = 0;
+    rd_clk       = 0;
+    wr_en        = 0;
+    rd_en        = 0;
+    din          = '0;
+    write_count  = 0;
+    read_count   = 0;
     mismatch_cnt = 0;
-    rst         = 1; // Assert reset
+    rst          = 1;
     #50;
-    rst         = 0;
+    rst          = 0;
   end
 
   initial begin
     wait(!rst);
-    // Generate and send random data to DUT
-    repeat (100) begin // Send 100 random data items
-      @(posedge wr_clk);
-      // Generate random data and send to DUT
+    while (write_count < TEST_ITEMS) begin
+      @(negedge wr_clk);
       if (!full) begin
-        din = $urandom_range(0, $urandom_range(0, (1 << DATA_WIDTH)-1));
-        wr_en = 1;
-        expected_data[write_count] = din; // Store data in expected_data
+        din = write_count[DATA_WIDTH-1:0];
+        wr_en = 1'b1;
+        expected_data[write_count] = write_count[DATA_WIDTH-1:0];
         write_count++;
       end
       else begin
-        wr_en = 0;
+        wr_en = 1'b0;
       end
+    end
+    @(negedge wr_clk);
+    wr_en = 1'b0;
+  end
+
+  initial begin
+    wait(!rst);
+    forever begin
+      @(negedge rd_clk);
+      rd_en = (read_count < TEST_ITEMS) && !empty;
     end
   end
 
   initial begin
     wait(!rst);
-    // Read data from DUT and compare with expected data
-    repeat (100) begin // Read 100 data items
+    while (read_count < TEST_ITEMS) begin
       @(posedge rd_clk);
-      if (rd_en) begin
+      #1;
+      if (vaild_out) begin
         if (dout !== expected_data[read_count]) begin
-          $display("Data mismatch! Expected: %h, != Received: %h", expected_data[read_count], dout);
+          $display("Data mismatch at index %0d! Expected: %h, received: %h",
+                   read_count, expected_data[read_count], dout);
           mismatch_cnt++;
         end
         else begin
-          $display("Data match! Expected: %h, ==  Received: %h", expected_data[read_count], dout);
+          $display("Data match at index %0d: %h", read_count, dout);
         end
+        read_count++;
       end
     end
-    // End simulation
     if (mismatch_cnt > 0) begin
       $display("TEST FAILED");
-      $finish;
     end
     else begin
       $display("TEST PASSED");
-      $finish;
     end
-  end
-
-  always_ff @(posedge rd_clk or posedge rst) begin
-    if(rst) begin
-      rd_en <= 0;
-    end
-    else begin
-      if (!empty) begin
-        rd_en <= 1'd1;
-      end
-      else begin
-        rd_en <= 1'd0;
-      end
-    end
-  end
-
-  always_ff @(posedge rd_clk or posedge rst) begin
-    if(rst) begin
-      read_count <= 0;
-    end
-    else begin
-      if (rd_en && vaild_out) begin
-        read_count <= read_count + 1;
-      end
-      else begin
-        read_count <= read_count;
-      end
-    end
+    $finish;
   end
 
 endmodule

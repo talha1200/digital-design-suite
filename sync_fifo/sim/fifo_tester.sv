@@ -21,8 +21,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 module fifo_tester #(
-    parameter DATA_WIDTH = 8,
-    parameter FIFO_DEPTH = 16
+    parameter        DATA_WIDTH = 8,
+    parameter        FIFO_DEPTH = 16,
+    parameter string FIFO_TYPE  = "Standard"
 )(
     input  logic clk,
     input  logic rst_n,
@@ -44,46 +45,51 @@ module fifo_tester #(
   // Internal wires and regs
   //---------------------------
 
-  logic [$clog2(FIFO_DEPTH):0] wrptr;
-  logic [$clog2(FIFO_DEPTH):0] rdptr;
-  logic [DATA_WIDTH-1:0] sent_data [FIFO_DEPTH-1:0];
+  localparam MAX_TRANSACTIONS = 64;
+
+  int                    wrptr;
+  int                    rdptr;
+  logic [DATA_WIDTH-1:0] sent_data [MAX_TRANSACTIONS-1:0];
   logic [DATA_WIDTH-1:0] data;
+  logic [DATA_WIDTH-1:0] standard_expected;
+  logic                  standard_valid;
+  logic                  read_accepted;
+  logic                  write_accepted;
 
   // ---------------------------------
   // Implementation
   // ---------------------------------
 
-  always_ff @(posedge clk or negedge rst_n) begin
+  assign read_accepted  = rd_en && !empty;
+  assign write_accepted = wr_en && (!full || read_accepted);
+
+  always_ff @(negedge clk or negedge rst_n) begin
     if (!rst_n) begin
       data <= {DATA_WIDTH{1'd0}};
     end
     else begin 
-      data <= $urandom_range(0, (1 << DATA_WIDTH) - 1);
+      data <= data + 1'b1;
     end
   end
 
-  // Synchronous logic to handle the reset and enable signals
-  always_ff @(posedge clk or negedge rst_n) begin
+  // Drive controls on the negative edge so they are stable at the DUT clock edge.
+  always_ff @(negedge clk or negedge rst_n) begin
     if (!rst_n) begin
-      wrptr <= 0;
       wr_en <= 0;
+      din   <= {DATA_WIDTH{1'd0}};
     end
     else begin
-      // Write data to FIFO
       if (!full && enable) begin
-        wr_en            <= 1;
-        din              <= data;
-        sent_data[wrptr] <= data; // saving a copy
-        wrptr            <= wrptr + 1;
+        wr_en <= 1'b1;
+        din   <= data;
       end 
       else begin
-        wr_en <= 0;
-        wrptr <= wrptr;
+        wr_en <= 1'b0;
       end
     end
   end
 
-  always_ff @(posedge clk or negedge rst_n) begin
+  always_ff @(negedge clk or negedge rst_n) begin
     if(!rst_n) begin
       rd_en <= 0;
     end
@@ -98,19 +104,47 @@ module fifo_tester #(
     end
   end
 
-  always_ff @(posedge clk or negedge rst_n) begin
+  always @(posedge clk or negedge rst_n) begin
     if(!rst_n) begin
-      rdptr <= 0;
+      wrptr             <= 0;
+      rdptr             <= 0;
+      standard_expected <= {DATA_WIDTH{1'd0}};
+      standard_valid    <= 1'b0;
     end
     else begin
-      if (valid) begin
-        if (dout !== sent_data[rdptr]) begin
-          $display("ERROR: Mismatch at index %0d: expected %0h, got %0h", rdptr, sent_data[rdptr], dout);
-        end 
-        else begin
-          $display("Match at index %0d: data %0h", rdptr, dout);
+      if (write_accepted) begin
+        sent_data[wrptr % MAX_TRANSACTIONS] <= din;
+        wrptr <= wrptr + 1;
+      end
+
+      if (FIFO_TYPE == "FWFT") begin
+        if (read_accepted) begin
+          if (dout !== sent_data[rdptr % MAX_TRANSACTIONS]) begin
+            $fatal(1, "ERROR: Mismatch at index %0d: expected %0h, got %0h",
+                   rdptr, sent_data[rdptr % MAX_TRANSACTIONS], dout);
+          end
+          else begin
+            $display("Match at index %0d: data %0h", rdptr, dout);
+          end
+          rdptr <= rdptr + 1;
         end
-        rdptr <= rdptr + 1;
+      end
+      else begin
+        if (standard_valid) begin
+          if (dout !== standard_expected) begin
+            $fatal(1, "ERROR: Mismatch at index %0d: expected %0h, got %0h",
+                   rdptr - 1, standard_expected, dout);
+          end
+          else begin
+            $display("Match at index %0d: data %0h", rdptr - 1, dout);
+          end
+        end
+
+        standard_valid <= read_accepted;
+        if (read_accepted) begin
+          standard_expected <= sent_data[rdptr % MAX_TRANSACTIONS];
+          rdptr <= rdptr + 1;
+        end
       end
     end
   end

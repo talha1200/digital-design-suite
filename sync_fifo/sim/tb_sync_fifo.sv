@@ -41,6 +41,8 @@ module tb_sync_fifo ();
   logic [DATA_WIDTH-1:0] din_0  ;
   logic                  empty_0;
   logic                  full_0 ;
+  logic                  overflow_0 ;
+  logic                  underflow_0;
   logic                  valid_0;
   logic [DATA_WIDTH-1:0] dout_0 ;
   logic enable_0   ;
@@ -50,6 +52,8 @@ module tb_sync_fifo ();
   logic [DATA_WIDTH-1:0] din_1  ;
   logic                  empty_1;
   logic                  full_1 ;
+  logic                  overflow_1 ;
+  logic                  underflow_1;
   logic                  valid_1;
   logic [DATA_WIDTH-1:0] dout_1 ;
   logic enable_1   ;
@@ -61,7 +65,7 @@ module tb_sync_fifo ();
 
   // Instantiate the FIFO for Standard mode
   sync_fifo #(
-    .SIM       (SIM       ),
+    .SIMULATION(SIM       ),
     .DATA_WIDTH(DATA_WIDTH),
     .FIFO_DEPTH(FIFO_DEPTH),
     .FIFO_TYPE ("Standard")
@@ -73,13 +77,15 @@ module tb_sync_fifo ();
     .din  (din_0  ),
     .empty(empty_0),
     .full (full_0 ),
+    .overflow (overflow_0 ),
+    .underflow(underflow_0),
     .valid(valid_0),
     .dout (dout_0 )
   );
 
   // Instantiate the FIFO for FWFT mode
   sync_fifo #(
-    .SIM       (SIM       ),
+    .SIMULATION(SIM       ),
     .DATA_WIDTH(DATA_WIDTH),
     .FIFO_DEPTH(FIFO_DEPTH),
     .FIFO_TYPE ("FWFT"    )
@@ -91,6 +97,8 @@ module tb_sync_fifo ();
     .din  (din_1  ),
     .empty(empty_1),
     .full (full_1 ),
+    .overflow (overflow_1 ),
+    .underflow(underflow_1),
     .valid(valid_1),
     .dout (dout_1 )
   );
@@ -102,7 +110,11 @@ module tb_sync_fifo ();
   end
 
   // FIFO Tester instance
-  fifo_tester #(.DATA_WIDTH(DATA_WIDTH), .FIFO_DEPTH(FIFO_DEPTH)) tester_0 (
+  fifo_tester #(
+    .DATA_WIDTH(DATA_WIDTH),
+    .FIFO_DEPTH(FIFO_DEPTH),
+    .FIFO_TYPE ("Standard")
+  ) tester_0 (
     .clk      (clk      ),
     .rst_n    (rst_n    ),
     .enable   (enable_0 ),
@@ -115,7 +127,11 @@ module tb_sync_fifo ();
     .din      (din_0    )
   );
 
-  fifo_tester #(.DATA_WIDTH(DATA_WIDTH), .FIFO_DEPTH(FIFO_DEPTH)) tester_1 (
+  fifo_tester #(
+    .DATA_WIDTH(DATA_WIDTH),
+    .FIFO_DEPTH(FIFO_DEPTH),
+    .FIFO_TYPE ("FWFT"    )
+  ) tester_1 (
     .clk      (clk      ),
     .rst_n    (rst_n    ),
     .enable   (enable_1 ),
@@ -133,12 +149,6 @@ module tb_sync_fifo ();
     enable_0  = 0;
     enable_1  = 0;
     rst_n     = 1;
-    rd_en_0   = 0;
-    wr_en_0   = 0;
-    din_0     = 0;
-    rd_en_1   = 0;
-    wr_en_1   = 0;
-    din_1     = 0;
     #20;
     rst_n     = 0;
     #20;

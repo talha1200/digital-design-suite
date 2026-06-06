@@ -33,6 +33,8 @@ module sync_fifo #(
   input  logic [DATA_WIDTH-1:0] din  ,
   output logic                  empty,
   output logic                  full ,
+  output logic                  overflow ,
+  output logic                  underflow,
   output logic                  valid,
   output logic [DATA_WIDTH-1:0] dout
 );
@@ -40,21 +42,27 @@ module sync_fifo #(
   //---------------------------
   // Localparam
   //---------------------------
-  localparam ADDR_WIDTH = $clog2(FIFO_DEPTH);
+  localparam ADDR_WIDTH  = (FIFO_DEPTH <= 1) ? 1 : $clog2(FIFO_DEPTH);
+  localparam COUNT_WIDTH = $clog2(FIFO_DEPTH + 1);
+  localparam logic [COUNT_WIDTH-1:0] FIFO_DEPTH_COUNT = COUNT_WIDTH'(FIFO_DEPTH);
+  localparam logic [ADDR_WIDTH-1:0] FIFO_PTR_LAST = ADDR_WIDTH'(FIFO_DEPTH - 1);
 
   //---------------------------
   // Internal wires and regs
   //---------------------------
-  logic [ADDR_WIDTH:0] wr_ptr_ext; // Extended write pointer with extra bit
-  logic [ADDR_WIDTH:0] rd_ptr_ext; // Extended read pointer with extra bit
+  logic [ADDR_WIDTH-1:0] wr_ptr;
+  logic [ADDR_WIDTH-1:0] rd_ptr;
+  logic [COUNT_WIDTH-1:0] fifo_count;
   logic [DATA_WIDTH-1:0] memory_block[FIFO_DEPTH-1:0];
+  logic write_fire;
+  logic read_fire;
 
   // ---------------------------------
   // Implementation
   // ---------------------------------
 
   generate
-    if (SIMULATION) begin
+    if (SIMULATION) begin : gen_sim_init
       initial begin
         for (int i = 0; i < FIFO_DEPTH; i++) begin
           memory_block[i] = {DATA_WIDTH{1'd0}};
@@ -63,70 +71,82 @@ module sync_fifo #(
     end
   endgenerate
 
-  // Write pointer increments with every write unless the FIFO is full
+  assign empty = (fifo_count == '0);
+  assign full  = (fifo_count == FIFO_DEPTH_COUNT);
+
+  assign read_fire  = rd_en && !empty;
+  assign write_fire = wr_en && (!full || read_fire);
+
+  // Write pointer increments with every accepted write.
   always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n)
-      wr_ptr_ext <= 'h0;
-    else if (wr_en && !full) begin
-      wr_ptr_ext <= wr_ptr_ext + 1;
+    if (!rst_n) begin
+      wr_ptr <= '0;
+    end
+    else if (write_fire) begin
+      wr_ptr <= (wr_ptr == FIFO_PTR_LAST) ? '0 : wr_ptr + 1'b1;
     end
   end
 
-  // Read pointer increments with every read unless the FIFO is empty
+  // Read pointer increments with every accepted read.
   always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n)
-      rd_ptr_ext <= 'h0;
-    else if (rd_en && !empty) begin
-      rd_ptr_ext <= rd_ptr_ext + 1;
+    if (!rst_n) begin
+      rd_ptr <= '0;
+    end
+    else if (read_fire) begin
+      rd_ptr <= (rd_ptr == FIFO_PTR_LAST) ? '0 : rd_ptr + 1'b1;
     end
   end
 
-  // Full and empty conditions
+  // Occupancy count drives the full and empty flags exactly for any FIFO_DEPTH.
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      fifo_count <= '0;
+    end
+    else begin
+      case ({write_fire, read_fire})
+        2'b10: fifo_count <= fifo_count + 1'b1;
+        2'b01: fifo_count <= fifo_count - 1'b1;
+        default: fifo_count <= fifo_count;
+      endcase
+    end
+  end
 
-  // - **Empty Condition**: The FIFO is empty when the extended write pointer (`wr_ptr_ext`) 
-  //                        is equal to the extended read pointer (`rd_ptr_ext`). 
-  //                        This means no data is available for reading.
-  
-  // - **Full Condition**:  The FIFO is full when the lower bits of the write pointer are equal 
-  //                        to the lower bits of the read pointer, and the MSBs are different. 
-  //                        This indicates that the write pointer has wrapped around and 
-  //                        is one position behind the read pointer.
-
-  
-  assign empty = (wr_ptr_ext == rd_ptr_ext);
-  assign full  = ((wr_ptr_ext[ADDR_WIDTH-1:0] == rd_ptr_ext[ADDR_WIDTH-1:0])) && 
-                 ((wr_ptr_ext[ADDR_WIDTH] != rd_ptr_ext[ADDR_WIDTH]));
+  // One-cycle status pulses for rejected accesses.
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      overflow  <= 1'b0;
+      underflow <= 1'b0;
+    end
+    else begin
+      overflow  <= wr_en && full && !read_fire;
+      underflow <= rd_en && empty;
+    end
+  end
 
   // Memory block for buffer
   always_ff @(posedge clk) begin
-    if (wr_en && !full) begin
-      memory_block[wr_ptr_ext[ADDR_WIDTH-1:0]] <= din;
+    if (write_fire) begin
+      memory_block[wr_ptr] <= din;
     end
   end
 
   // Output logic for Standard and FWFT modes
   generate
-    if (FIFO_TYPE == "FWFT") begin
+    if (FIFO_TYPE == "FWFT") begin : gen_fwft
       always_comb begin
-        if (rd_en) begin
-          dout  = memory_block[rd_ptr_ext[ADDR_WIDTH-1:0]];
-          valid = 1'd1;
-        end
-        else begin
-          valid = 1'd0;
-          dout  = memory_block[rd_ptr_ext[ADDR_WIDTH-1:0]];
-        end
+        valid = !empty;
+        dout  = empty ? {DATA_WIDTH{1'd0}} : memory_block[rd_ptr];
       end
     end
-    else if (FIFO_TYPE == "Standard") begin
+    else if (FIFO_TYPE == "Standard") begin : gen_standard
       always_ff @(posedge clk or negedge rst_n) begin
         if(!rst_n) begin
           dout  <= {DATA_WIDTH{1'd0}};
           valid <= 1'd0;
         end
         else begin
-          if (rd_en && !empty) begin
-            dout <= memory_block[rd_ptr_ext[ADDR_WIDTH-1:0]];
+          if (read_fire) begin
+            dout <= memory_block[rd_ptr];
             valid <= 1'd1;
           end
           else begin
@@ -135,8 +155,10 @@ module sync_fifo #(
         end
       end
     end
-    else begin
-      $fatal("Invalid FIFO type specified. Fatal error occurred!");
+    else begin : gen_invalid_fifo_type
+      initial begin
+        $fatal("Invalid FIFO type specified. Fatal error occurred!");
+      end
     end
   endgenerate
 

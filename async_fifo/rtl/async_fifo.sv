@@ -34,7 +34,9 @@ module async_fifo #(
   output logic                  vaild_out,
   output logic [DATA_WIDTH-1:0] dout     , // Data output
   output logic                  full     ,
-  output logic                  empty
+  output logic                  empty    ,
+  output logic                  overflow ,
+  output logic                  underflow
 );
 
   
@@ -49,6 +51,8 @@ module async_fifo #(
   logic [DATA_WIDTH-1:0] fifo_mem[DEPTH-1:0]; // FIFO memory array
   logic [ADDR_WIDTH:0] wr_ptr_bin, wr_ptr_gray, rd_ptr_bin, rd_ptr_gray;
   logic [ADDR_WIDTH:0] wr_ptr_gray_sync1, wr_ptr_gray_sync2, rd_ptr_gray_sync1, rd_ptr_gray_sync2;
+  logic [ADDR_WIDTH:0] wr_ptr_bin_next;
+  logic [ADDR_WIDTH:0] wr_ptr_gray_next;
 
   //--------------------------------
   // implemetation
@@ -75,9 +79,13 @@ module async_fifo #(
     if (rst) begin
       wr_ptr_bin  <= 0;
       wr_ptr_gray <= 0;
-    end else if (wr_en && !full) begin
-      wr_ptr_bin  <= wr_ptr_bin + 1;
-      wr_ptr_gray <= bin2gray(wr_ptr_bin + 1);
+      overflow    <= 0;
+    end else begin
+      overflow <= wr_en && full;
+      if (wr_en && !full) begin
+        wr_ptr_bin  <= wr_ptr_bin + 1;
+        wr_ptr_gray <= bin2gray(wr_ptr_bin + 1);
+      end
     end
   end
 
@@ -86,9 +94,13 @@ module async_fifo #(
     if (rst) begin
       rd_ptr_bin  <= 0;
       rd_ptr_gray <= 0;
-    end else if (rd_en && !empty) begin
-      rd_ptr_bin  <= rd_ptr_bin + 1;
-      rd_ptr_gray <= bin2gray(rd_ptr_bin + 1);
+      underflow   <= 0;
+    end else begin
+      underflow <= rd_en && empty;
+      if (rd_en && !empty) begin
+        rd_ptr_bin  <= rd_ptr_bin + 1;
+        rd_ptr_gray <= bin2gray(rd_ptr_bin + 1);
+      end
     end
   end
 
@@ -138,12 +150,17 @@ module async_fifo #(
       vaild_out <= 0;
     end 
     else begin
-      vaild_out <= rd_en;
+      vaild_out <= rd_en && !empty;
     end
   end
 
   // Full condition: write pointer + 1 == read pointer (in Gray code form)
-  assign full = (wr_ptr_gray == {~rd_ptr_gray_sync2[ADDR_WIDTH:ADDR_WIDTH-1], rd_ptr_gray_sync2[ADDR_WIDTH-2:0]});
+  assign wr_ptr_bin_next  = wr_ptr_bin + 1'b1;
+  assign wr_ptr_gray_next = bin2gray(wr_ptr_bin_next);
+
+  assign full = (wr_ptr_gray_next ==
+              {~rd_ptr_gray_sync2[ADDR_WIDTH:ADDR_WIDTH-1],
+                rd_ptr_gray_sync2[ADDR_WIDTH-2:0]});
 
   // Empty condition: write pointer == read pointer (in Gray code form)
   assign empty = (wr_ptr_gray_sync2 == rd_ptr_gray);
